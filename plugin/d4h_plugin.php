@@ -3,13 +3,12 @@
 Plugin Name: D4H Import Incidents
 Plugin URI: http://woodheadmrt.org/
 Description: Plug-in to transfer D4H incidents to custom Wordpress Post Type
-Version: 1.0
+Version: 1.1
 Author: Mark Pearce
 Author URI: http://silkstone-technology.co.uk/
 License: GPLv3
 */
-?>
-<?php
+
 /* Copyright 2018 Mark Pearce (email: mpearce@woodheadmrt.org)
 
     This file is part of the D4H-Worpress Importer Plugin.
@@ -27,8 +26,7 @@ License: GPLv3
     You should have received a copy of the GNU General Public License along 
     with D4H-Worpress Importer Plugin.  If not, see <https://www.gnu.org/licenses/>.
 */
-?>
-<?php 
+
 require 'include/D4H_get_incidents.php';
 require 'include/D4H_plugin_options.php';
 require 'include/D4H_api.php';
@@ -56,10 +54,18 @@ function D4H_incidents_install() {
     
     // Define the array of cofiguration settings for this plug-in
     $UDMD4H_incidents_options = array(
-		'API_Key'            => '',           // The API key is the D4H API Access Key
-        'Incident_Post_Type' => 'incident',   // Allows incidents to be posted as a custom post type.
-                                              // Set this to 'post' if no custom type is being used.
-        'Post_Author_ID'     => '1'
+		'API_Key'            => '',                    // The API key is the D4H API Access Key
+        'Incident_Post_Type' => 'incident',            // Allows incidents to be posted as a custom post type.
+                                                       // Set this to 'post' if no custom type is being used.
+        'Post_Author_ID'     => '1',                   // This allows the incidents to be posted by a specific author.
+        'Base_URL'           => 
+           'https://api.eu.d4h.org/v2/team/incidents', // This is the base URL that is 
+                                                       // used to generate API calls. The default is for EU region.
+        'META_date'          => 'incident_date_time',  // Wordpress Metadata field for the incident date/time.
+        'META_lat'           => 'incident_latitude',   // Wordpress Metadata field for the incident latitude.
+        'META_long'          => 'incident_longitude',  // Wordpress Metadata field for the incident longitude.
+        'META_cat'           => 'incident_type',       // Wordpress Metadata field for the incident type.
+        'META_ref'           => 'incident_id'          // Wordpress Metadata field for the incident reference number.
 	);
     
     update_option('UDMD4H_incidents_options', $UDMD4H_incidents_options);

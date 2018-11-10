@@ -18,16 +18,22 @@
 */
 function D4H_get_incidents(){
      
-   $base_url = 'https://api.eu.d4h.org/v2/team/incidents';
-
    ## Get the API Key to access D4H
    $UDMD4H_options         = get_option(UDMD4H_incident_import_options);
    $D4H_API_Key            = $UDMD4H_options['API_Key'];
    $D4H_Incident_Post_type = $UDMD4H_options['Incident_Post_Type'];
    $D4H_Post_Author_ID     = $UDMD4H_options['Post_Author_ID'];
+   $D4H_Base_URL           = $UDMD4H_options['Base_URL'];
+
+   ## Populate the metadata field id's
+   $D4H_META_date          = $UDMD4H_options['META_date'];
+   $D4H_META_lat           = $UDMD4H_options['META_lat'];
+   $D4H_META_long          = $UDMD4H_options['META_long'];
+   $D4H_META_cat           = $UDMD4H_options['META_cat'];
+   $D4H_META_ref           = $UDMD4H_options['META_ref'];
    
    ## Fetch the list of incidents from D4H
-   $incidents = D4H_fetch_incidents($D4H_API_Key, $base_url, "http://woodheadmrt.org/incidents");
+   $incidents = D4H_fetch_incidents($D4H_API_Key, $D4H_Base_URL, "http://woodheadmrt.org/incidents");
    
    $r = "";
    
@@ -144,11 +150,11 @@ function D4H_get_incidents(){
           } else {
               ## The post was updated, so now update the meta information too
               ## Incident Number
-              update_post_meta( $upd_id, 'incident_id',        $incident_no );
-              update_post_meta( $upd_id, 'incident_type',      $incident_type );
-              update_post_meta( $upd_id, 'incident_latitude',  $lat );
-              update_post_meta( $upd_id, 'incident_longitude', $lng );
-              update_post_meta( $upd_id, 'incident_date_time', date('d/m/Y H:i',strtotime($date)) );
+              update_post_meta( $upd_id, $D4H_META_ref,        $incident_no );
+              update_post_meta( $upd_id, $D4H_META_cat,      $incident_type );
+              update_post_meta( $upd_id, $D4H_META_lat,  $lat );
+              update_post_meta( $upd_id, $D4H_META_long, $lng );
+              update_post_meta( $upd_id, $D4H_META_date, date('d/m/Y H:i',strtotime($date)) );
               $r = $r. "Updated.";
           }
              
@@ -174,12 +180,12 @@ function D4H_get_incidents(){
              }
              # Post was not created. 
           } else {
-             update_post_meta( $new_id, 'd4h_id',             $id );
-             update_post_meta( $new_id, 'incident_id',        $incident_no );
-             update_post_meta( $new_id, 'incident_type',      $incident_type );
-             update_post_meta( $new_id, 'incident_latitude',  $lat );
-             update_post_meta( $new_id, 'incident_longitude', $lng );
-             update_post_meta( $new_id, 'incident_date_time', date('d/m/Y H:i',strtotime($date)) );
+             update_post_meta( $new_id, 'd4h_id',       $id );
+             update_post_meta( $new_id, $D4H_META_ref,  $incident_no );
+             update_post_meta( $new_id, $D4H_META_cat,  $incident_type );
+             update_post_meta( $new_id, $D4H_META_lat,  $lat );
+             update_post_meta( $new_id, $D4H_META_long, $lng );
+             update_post_meta( $new_id, $D4H_META_date, date('d/m/Y H:i',strtotime($date)) );
              $r = $r . "Post ".$new_id." for incident " . $id . " was successfully created.";
           }
       }

@@ -21,7 +21,7 @@ function D4H_get_incidents(){
    ## Get the API Key to access D4H
    $UDMD4H_options         = get_option(UDMD4H_incident_import_options);
    $D4H_API_Key            = $UDMD4H_options['API_Key'];
-   $D4H_Incident_Post_type = $UDMD4H_options['Incident_Post_Type'];
+   $D4H_Incident_Post_Type = $UDMD4H_options['Incident_Post_Type'];
    $D4H_Post_Author_ID     = $UDMD4H_options['Post_Author_ID'];
    $D4H_Base_URL           = $UDMD4H_options['Base_URL'];
 
@@ -112,7 +112,7 @@ function D4H_get_incidents(){
        
        # Check this incident to see if there is a post tagged with it's ID
        $args = array(
-          'post_type'  => 'incident',
+          'post_type'  => $D4H_Incident_Post_Type,
           'meta_query' => array(
            array(
             'key'      => 'd4h_id',
@@ -160,16 +160,15 @@ function D4H_get_incidents(){
              
       } else {
           ## No record of this incident
-          $r = $r."Incident Not Matched so creating new record.";
+          $r = $r."Incident Not Matched so creating new record. Post type =". $D4H_Incident_Post_Type."\n";
           $new_post = array(
               'post_title'   => $ref, 
-              'post_type'    => $D4H_Incident_Post_type,
+              'post_type'    => $D4H_Incident_Post_Type,
               'post_status'  => 'publish', 
               'post_author'  => $D4H_Post_Author_ID,
               'post_content' => $description,
               'post_excerpt' => '',
               'post_date'    => date('Y-m-d H:i:s',strtotime($date)));
-
           $new_id = wp_insert_post($new_post, true);
           if (is_wp_error($new_id)){
              $r = $r . "Post for incident " . $id . " could not be created.";

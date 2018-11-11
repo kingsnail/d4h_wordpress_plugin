@@ -3,7 +3,7 @@
 Plugin Name: D4H Import Incidents
 Plugin URI: http://woodheadmrt.org/
 Description: Plug-in to transfer D4H incidents to custom Wordpress Post Type
-Version: 1.1
+Version: 1.2
 Author: Mark Pearce
 Author URI: http://silkstone-technology.co.uk/
 License: GPLv3

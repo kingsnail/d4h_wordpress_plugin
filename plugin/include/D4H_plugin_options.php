@@ -63,7 +63,7 @@ function UDMD4H_API_Key_input() {
 
 function UDMD4H_Post_Type_input() {
    $options = get_option('UDMD4H_incident_import_options');
-   echo "<input id='UDM_D4H_Post_Type_string' name='UDMD4H_incident_import_options[Post_Type]' size='40' type='text' value='{$options['Post_Type']}' />";
+   echo "<input id='UDM_D4H_Incident_Post_Type_string' name='UDMD4H_incident_import_options[Incident_Post_Type]' size='40' type='text' value='{$options['Incident_Post_Type']}' />";
 } 
 
 function UDMD4H_Author_ID_input() {
@@ -106,9 +106,9 @@ function UDMD4H_incident_import_options_validate($input) {
    if(!preg_match('/^[a-zA-Z0-9]+$/i', $newinput['API_Key'])) {
       $newinput['API_Key'] = '';
    }
-   $newinput['Post_Type'] = trim($input['Post_Type']);
-   if(!preg_match('/^[a-zA-Z0-9_\-]+$/i', $newinput['Post_Type'])){
-      $newinput['Post_Type'] = '';
+   $newinput['Incident_Post_Type'] = trim($input['Incident_Post_Type']);
+   if(!preg_match('/^[a-zA-Z0-9_\-]+$/i', $newinput['Incident_Post_Type'])){
+      $newinput['Incident_Post_Type'] = '';
    }
    $newinput['Post_Author_ID'] = trim($input['Post_Author_ID']);
    if(!preg_match('/^[a-zA-Z0-9_\-]+$/i', $newinput['Post_Author_ID'])){
